@@ -1,0 +1,33 @@
+
+{% extends 'layout.html' %}
+{% block body_content %}
+
+{% for todo in all_todos %}
+
+{{ todo.task }}
+<form method= '' action=' {{url_for('delete',todo_id=todo.id)}}'>
+	<button>Delete</button>
+</form>
+{% if todo.complete %}
+&#9989
+{% else %}
+&#10060
+{% endif %}
+<br><br>
+{% if do.complete %}
+<form method= ''  action = '{{url_for('incomplete', todo_id=todo.id) }}'>
+        <button>Incomplete</button>
+{% else %}
+<form method='' action = '{{url_for('complete', todo_id=todo.id) }}'>
+	<button>Complete</button>
+</form>
+{% endif %}
+<form method=''  action = '{{ url_for('update', todo_id=todo.id) }}'>
+	<button>Update</button>
+</form>
+<br><br>
+
+{% endfor %}
+
+{% endblock content%}
+
