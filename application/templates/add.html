@@ -1,20 +1,15 @@
 {% extends 'layout.html' %}
 {% block body_content %}
-
-<h2>Add a Todo</h2>
-
 <form method='POST' action=''>
 	{{ form.hidden_tag() }}
-	{{ form.task.label }} {{ form.task }}
+	{{ form.task }} <br>
 	{% if form.task.errors %}
 		{% for error in form.task.errors %}
-			{{ error }}
+		{{ error }} <br>
 		{% endfor %}
 	{% endif %}
-	<br>
 	{{ form.submit }}
 </form>
-
 {% endblock body_content %}
 
 

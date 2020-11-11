@@ -1,23 +1,32 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms import StringField, BooleanField, SubmitField, SelectField
+from wtforms.validators import DataRequired, ValidationError
 
 from application.models import Todos
 
 
-class CheckIfExists:
-    def __init__(self, message):
-        self.message = message
-
-    def __call__(self, form, field):
-        for todo in all_todos:
-            if todo.name == field.data:
-                raise ValidationError(self.message)
-
-
 class TodoForm(FlaskForm):
-    task= StringField('Task', validators=[
-        DataRequired(),
-        CheckTodo(message='This Todo already exists')
-    ])
-    submit = SubmitField('Add Todo')
+    task= StringField('Task',
+            validators=[
+                DataRequired(),
+                ]
+            )
+    submit = SubmitField('Submit')
+
+def validate_task(self, task):
+    todos = Todos.query.all()
+    for todo in todos:
+        if todo.task == task.data:
+            raise ValidationError('You already added this Todo')
+
+class OrderTodo(FlaskForm):
+    order_with = SelectField('Order With',
+        choices=[
+            ("complete", "Completed"),
+            ("id", "Recent"),
+            ("old", "Old"),
+            ('incomplete', "Incomplete")
+        ]
+    )
+    submit = SubmitField('Order')
+
